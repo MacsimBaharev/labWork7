@@ -19,8 +19,13 @@ public class Main {
         clients.add(new Client(3, "Alex", 23, true, phones));
 
         Stream<Client> clientStream = clients.stream();
+        var ref = new Object() {
+            int count = 0;
+        };
         long count = clientStream.filter(w -> (w.getPhones().stream().anyMatch(p -> !p.isType()))).count();
-        System.out.println(count + "\n");
+        clientStream = clients.stream();
+        clientStream.filter(w -> (w.getPhones().stream().anyMatch(p -> !p.isType()))).forEach(w -> ref.count += w.getAge());
+        System.out.println(ref.count / count + "\n");
         clientStream = clients.stream();
         clientStream.filter(w -> w.getAge() >= 18).peek(System.out::println).count();
         clientStream = clients.stream();
